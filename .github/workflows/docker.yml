@@ -50,8 +50,7 @@ jobs:
           IMAGE_TAG=${{ matrix.image-tag }}
 
       - name: Upload Docker image
-        if: |
-          ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
+        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
         run: |
           docker push \
           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }}
