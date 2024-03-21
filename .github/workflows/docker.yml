@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: staticrocket/ti-debian-docker
+  IMAGE_NAME: staticrocket/ti-debian
 
 jobs:
   build:
@@ -46,11 +46,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          make IMAGE_TAG=${{ matrix.image-tag }}
+          make IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
+          IMAGE_TAG=${{ matrix.image-tag }}
 
       - name: Upload Docker image
         if: github.event_name != 'pull_request'
         run: |
-          docker buildx imagetools create --tag \
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }} \
-          ti-debian:${{ matrix.image-tag }}
+          docker push \
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }}
