@@ -13,10 +13,8 @@ RUN apt-get update \
 
 COPY root /
 
-RUN . /etc/os-release && \
-	echo "Setting release to ${VERSION_CODENAME}..." \
-	&& sed -i "s/VERSION_CODENAME/${VERSION_CODENAME}/g" \
-		/etc/apt/sources.list.d/beagle.list;
+ADD https://raw.githubusercontent.com/TexasInstruments/ti-debpkgs/main/ti-debpkgs.sources \
+	/etc/apt/sources.list.d/
 
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \

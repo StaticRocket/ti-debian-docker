@@ -1,8 +1,8 @@
-# Beagle Docker
+# TI Debian Docker
 
-This is a template project to convert a standard Debian image to the beagle
-equivalent by adding the required packaging GPG key and adding the repo source
-list for the selected release.
+This is a template project to convert a standard Debian image to the TI
+equivalent by adding the required repo source list for the selected release and
+configuring things to prefer those sources.
 
 
 ## Usage

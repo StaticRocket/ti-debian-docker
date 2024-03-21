@@ -1,4 +1,4 @@
-IMAGE_NAME=debian-beagle
+IMAGE_NAME=ti-debian
 IMAGE_TAG=bookworm-slim
 
 ifeq ($(CONTAINER_TOOL),)
