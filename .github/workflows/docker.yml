@@ -54,5 +54,5 @@ jobs:
         run: |
           docker tag \
           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }} \
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }}+${{ github.ref_name }}
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }}-${{ github.ref_name }}
           docker push -a ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
