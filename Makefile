@@ -1,5 +1,5 @@
-IMAGE_NAME = ti-debian
-IMAGE_TAG = bookworm-slim
+IMAGE_NAME ?= ti-debian
+IMAGE_TAG ?= bookworm-slim
 BUILD_ARGS ?=
 
 ifeq ($(CONTAINER_TOOL),)
