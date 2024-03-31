@@ -14,7 +14,11 @@ RUN apt-get update \
 	&& apt-get clean -y \
 	; rm -rf \
 		/tmp/* \
+		/var/cache/apt/* \
+		/var/cache/ldconfig/* \
 		/var/lib/apt/lists/* \
+		/var/log/apt/* \
+		/var/log/dpkg.log \
 		/var/tmp/*
 
 COPY root /
@@ -27,6 +31,10 @@ RUN apt-get update \
 	&& apt-get clean -y \
 	; rm -rf \
 		/tmp/* \
+		/var/cache/apt/* \
+		/var/cache/ldconfig/* \
 		/var/lib/apt/lists/* \
+		/var/log/apt/* \
+		/var/log/dpkg.log \
 		/var/tmp/*
 
