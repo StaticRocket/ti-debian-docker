@@ -16,7 +16,7 @@ endif
 all: Dockerfile $(shell find root/)
 	$(CONTAINER_TOOL) build . -t ${IMAGE_NAME}:${IMAGE_TAG} \
 		--build-arg IMAGE_TAG=${IMAGE_TAG} \
-		--platform arm64 \
+		--platform linux/arm64 \
 		$(BUILD_ARGS)
 
 clean:
