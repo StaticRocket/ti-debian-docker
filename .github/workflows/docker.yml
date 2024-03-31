@@ -59,6 +59,7 @@ jobs:
           BUILD_ARGS: >-
             --cache-to type=gha,scope=${{ matrix.image-tag }}
             --cache-from type=gha,scope=${{ matrix.image-tag }}
+            --load
 
       - name: Upload Docker image
         if: ${{ env.PUSHING }}
