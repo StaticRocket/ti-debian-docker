@@ -10,11 +10,15 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: staticrocket/ti-debian
+  PUSHING: >-
+    ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      REPOSITORY: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
     permissions:
       contents: read
       packages: write
@@ -39,7 +43,7 @@ jobs:
           install: true
 
       - name: Log into registry ${{ env.REGISTRY }}
-        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
+        if: ${{ env.PUSHING }}
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -50,16 +54,19 @@ jobs:
         uses: crazy-max/ghaction-github-runtime@v3
 
       - name: Build Docker image
-        run: |
-          make IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
-          IMAGE_TAG=${{ matrix.image-tag }} \
-          BUILD_ARGS="--cache-to type=gha,scope=${{ matrix.image-tag }} \
-                      --cache-from type=gha,scope=${{ matrix.image-tag }}"
+        run: make
+        env:
+          IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          IMAGE_TAG: ${{ matrix.image-tag }}
+          BUILD_ARGS: >-
+            --cache-to type=gha,scope=${{ matrix.image-tag }}
+            --cache-from type=gha,scope=${{ matrix.image-tag }}
 
       - name: Upload Docker image
-        if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
+        if: ${{ env.PUSHING }}
         run: |
-          docker tag \
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }} \
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.image-tag }}-${{ github.ref_name }}
-          docker push -a ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          docker tag ${{ env.REPOSITORY }}:$SRC ${{ env.REPOSITORY }}:$DST
+          docker push -a ${{ env.REPOSITORY }}
+        env:
+          SRC: ${{ matrix.image-tag }}
+          DST: ${{ matrix.image-tag }}-${{ github.ref_name }}
