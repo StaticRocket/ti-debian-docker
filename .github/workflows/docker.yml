@@ -51,7 +51,7 @@ jobs:
         run: |
           make IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
           IMAGE_TAG=${{ matrix.image-tag }} \
-          BUILD_ARGS="--cache-to type=gha --cache-from type=gha"
+          BUILD_ARGS="--builder docker-container --cache-to type=gha --cache-from type=gha"
 
       - name: Upload Docker image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
