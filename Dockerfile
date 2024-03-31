@@ -6,8 +6,9 @@ LABEL org.opencontainers.image.title="ti-debian" \
 	org.opencontainers.image.authors="Randolph Sapp <rs@ti.com>" \
 	org.opencontainers.image.source="https://github.com/StaticRocket/ti-debian-docker"
 
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	&& apt-get install -y \
 			--no-install-recommends \
 		ca-certificates \
 	&& apt-get clean -y \
@@ -22,7 +23,7 @@ ADD https://raw.githubusercontent.com/TexasInstruments/ti-debpkgs/main/ti-debpkg
 	/etc/apt/sources.list.d/
 
 RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
+	&& apt-get upgrade -y \
 	&& apt-get clean -y \
 	; rm -rf \
 		/tmp/* \
