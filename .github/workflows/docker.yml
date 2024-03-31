@@ -44,10 +44,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v3
+
       - name: Build Docker image
         run: |
           make IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} \
-          IMAGE_TAG=${{ matrix.image-tag }}
+          IMAGE_TAG=${{ matrix.image-tag }} \
+          BUILD_ARGS="--cache-to type=gha --cache-from type=gha"
 
       - name: Upload Docker image
         if: ${{ github.event_name != 'pull_request' && github.ref_type == 'tag' }}
