@@ -1,6 +1,11 @@
 ARG IMAGE_TAG
 from debian:${IMAGE_TAG}
 
+LABEL org.opencontainers.image.title="ti-debian" \
+	org.opencontainers.image.description="A version of Debian with TI specific repos enabled and prefered" \
+	org.opencontainers.image.authors="Randolph Sapp <rs@ti.com>" \
+	org.opencontainers.image.source="https://github.com/StaticRocket/ti-debian-docker"
+
 RUN apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
 			--no-install-recommends \
