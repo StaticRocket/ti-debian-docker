@@ -17,8 +17,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      REPOSITORY: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
     permissions:
       contents: read
       packages: write
@@ -65,8 +63,9 @@ jobs:
       - name: Upload Docker image
         if: ${{ env.PUSHING }}
         run: |
-          docker tag ${{ env.REPOSITORY }}:$SRC ${{ env.REPOSITORY }}:$DST
-          docker push -a ${{ env.REPOSITORY }}
+          docker tag $REPOSITORY:$SRC $REPOSITORY:$DST
+          docker push -a $REPOSITORY
         env:
           SRC: ${{ matrix.image-tag }}
           DST: ${{ matrix.image-tag }}-${{ github.ref_name }}
+          REPOSITORY: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
